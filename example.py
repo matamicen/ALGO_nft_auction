@@ -1,6 +1,6 @@
 from time import time, sleep
 
-from algosdk import account, encoding
+from algosdk import account, encoding,mnemonic
 from algosdk.logic import get_application_address
 from auction.operations import createAuctionApp, setupAuctionApp, placeBid, closeAuction
 from auction.util import (
@@ -22,6 +22,14 @@ def simple_auction():
     print("Alice is generating temporary accounts...")
     creator = getTemporaryAccount(client)
     seller = getTemporaryAccount(client)
+    bidder = getTemporaryAccount(client)
+
+
+
+    print("Alice seller NFT holder address: ", seller.getAddress())
+    print("Alice: ",mnemonic.from_private_key(seller.getPrivateKey()))
+    print("Carla Bidder address: ", bidder.getAddress())
+    print("Carla: ",mnemonic.from_private_key(bidder.getPrivateKey()))
 
     print("Alice is generating an example NFT...")
     nftAmount = 1
@@ -58,8 +66,13 @@ def simple_auction():
     sellerAlgosBefore = getBalances(client, seller.getAddress())[0]
 
     print("Alice's algo balance: ", sellerAlgosBefore, " algos")
+    # print("Alice seller NFT holder address: ", seller.getAddress())
+    # print("Alice: ",mnemonic.from_private_key(seller.getPrivateKey()))
+    print("Application Contract: ",get_application_address(appID))
 
-    bidder = getTemporaryAccount(client)
+    # bidder = getTemporaryAccount(client)
+    # print("Carla Bidder address: ", bidder.getAddress())
+    # print("Carla: ",mnemonic.from_private_key(bidder.getPrivateKey()))
 
     _, lastRoundTime = getLastBlockTimestamp(client)
     if lastRoundTime < startTime + 5:

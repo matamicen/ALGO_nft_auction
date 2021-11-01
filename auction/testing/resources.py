@@ -25,7 +25,7 @@ def payAccount(
     return waitForTransaction(client, signedTxn.get_txid())
 
 
-FUNDING_AMOUNT = 100_000_000
+FUNDING_AMOUNT = 2_000_000
 
 
 def fundAccount(
