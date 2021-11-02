@@ -24,19 +24,34 @@ def simple_auction():
     seller = getTemporaryAccount(client)
     bidder = getTemporaryAccount(client)
 
-
-
+    print("Contract Creator address: ", creator.getAddress())
+    print("Contract: ",mnemonic.from_private_key(creator.getPrivateKey()))
     print("Alice seller NFT holder address: ", seller.getAddress())
     print("Alice: ",mnemonic.from_private_key(seller.getPrivateKey()))
     print("Carla Bidder address: ", bidder.getAddress())
     print("Carla: ",mnemonic.from_private_key(bidder.getPrivateKey()))
+    print("")
+
+    print("Haciendo tiempo... 360 segundos ... a crear las billeteras")
+    startTime = int(time()) + 180  # start time is 20 seconds in the future
+    _, lastRoundTime = getLastBlockTimestamp(client)
+    if lastRoundTime < startTime + 5:
+        sleep(startTime + 5 - lastRoundTime)
+       
 
     print("Alice is generating an example NFT...")
     nftAmount = 1
     nftID = createDummyAsset(client, nftAmount, seller)
     print("The NFT ID is:", nftID)
+    
+    print("Haciendo tiempo... 180 segundos ... fijarse q el NFT lo tenga Alice")
+    startTime = int(time()) + 180  # start time is 20 seconds in the future
+    _, lastRoundTime = getLastBlockTimestamp(client)
+    if lastRoundTime < startTime + 5:
+        sleep(startTime + 5 - lastRoundTime)
+
     startTime = int(time()) + 10  # start time is 10 seconds in the future
-    endTime = startTime + 30  # end time is 30 seconds after start
+    endTime = startTime + 390  # end time is 30 seconds after start
     reserve = 1_000_000  # 1 Algo
     increment = 100_000  # 0.1 Algo
 
@@ -68,7 +83,13 @@ def simple_auction():
     print("Alice's algo balance: ", sellerAlgosBefore, " algos")
     # print("Alice seller NFT holder address: ", seller.getAddress())
     # print("Alice: ",mnemonic.from_private_key(seller.getPrivateKey()))
-    print("Application Contract: ",get_application_address(appID))
+    print("Application Contract Address: ",get_application_address(appID))
+
+    print("Haciendo tiempo... 180 segundos ... fijarse q el Contrato tenga el NFT y q haya desaparecido de Alice")
+    startTime = int(time()) + 180  # start time is 20 seconds in the future
+    _, lastRoundTime = getLastBlockTimestamp(client)
+    if lastRoundTime < startTime + 5:
+        sleep(startTime + 5 - lastRoundTime)
 
     # bidder = getTemporaryAccount(client)
     # print("Carla Bidder address: ", bidder.getAddress())
@@ -89,6 +110,12 @@ def simple_auction():
     print("Carla is opting into NFT with id:", nftID)
 
     optInToAsset(client, nftID, bidder)
+
+    print("Haciendo tiempo... 180 segundos ... fijarse q Carla hizo optIn y pago 1 algo por el BID, no debe tener el NFT por ahora")
+    startTime = int(time()) + 180  # start time is 20 seconds in the future
+    _, lastRoundTime = getLastBlockTimestamp(client)
+    if lastRoundTime < startTime + 5:
+        sleep(startTime + 5 - lastRoundTime)
 
     _, lastRoundTime = getLastBlockTimestamp(client)
     if lastRoundTime < endTime + 5:
@@ -119,3 +146,7 @@ def simple_auction():
 
 
 simple_auction()
+
+# Account en wallet KMD  V4KBU76CUPABTBINMSGQQT3KXLRNXFXHAFHU6HAEUKULFBSMI6CVFJOXA4
+# Esta direccion tiene que tener fondos porque es la que crea nuevas direcciones y les llena fondos
+# crea al creator, seller y bidder.
